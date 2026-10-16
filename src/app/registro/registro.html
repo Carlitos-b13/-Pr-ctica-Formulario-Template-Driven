@@ -1,96 +1,191 @@
-<div class="contenedor">
 
-  <h1>Formulario de Registro</h1>
+<div class="formulario-container">
+  <h1>Registro de usuario</h1>
+  <p class="descripcion">Completa todos los campos correctamente.</p>
 
-  <form #formulario="ngForm" (ngSubmit)="registrar()">
+  <form #formRegistro="ngForm" (ngSubmit)="registrar(formRegistro)" novalidate>
 
+    <!-- Nombre -->
     <div class="campo">
-      <label for="nombre">Nombre completo:</label>
+      <label for="nombre">Nombre completo</label>
       <input
         type="text"
         id="nombre"
         name="nombre"
         [(ngModel)]="usuario.nombre"
+        #nombre="ngModel"
         required
-        placeholder="Ingresa tu nombre completo">
+        minlength="3"
+        [class.valido]="nombre.valid && (nombre.dirty || nombre.touched)"
+        [class.invalido]="nombre.invalid && (nombre.dirty || nombre.touched)"
+        placeholder="Escribe tu nombre"
+      />
+
+      <div class="error" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+        <span *ngIf="nombre.errors?.['required']">
+          El nombre es obligatorio.
+        </span>
+        <span *ngIf="nombre.errors?.['minlength']">
+          El nombre debe tener al menos 3 caracteres.
+        </span>
+      </div>
+      <div class="exito" *ngIf="nombre.valid && (nombre.dirty || nombre.touched)">
+        Nombre válido.
+      </div>
     </div>
 
+    <!-- Correo -->
     <div class="campo">
-      <label for="correo">Correo electrónico:</label>
+      <label for="correo">Correo electrónico</label>
       <input
         type="email"
         id="correo"
         name="correo"
         [(ngModel)]="usuario.correo"
+        #correo="ngModel"
         required
-        placeholder="ejemplo@correo.com">
+        email
+        [class.valido]="correo.valid && (correo.dirty || correo.touched)"
+        [class.invalido]="correo.invalid && (correo.dirty || correo.touched)"
+        placeholder="ejemplo@correo.com"
+      />
+
+      <div class="error" *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+        <span *ngIf="correo.errors?.['required']">
+          El correo es obligatorio.
+        </span>
+        <span *ngIf="correo.errors?.['email']">
+          Ingresa un correo válido.
+        </span>
+      </div>
+      <div class="exito" *ngIf="correo.valid && (correo.dirty || correo.touched)">
+        Correo válido.
+      </div>
     </div>
 
+    <!-- Teléfono -->
     <div class="campo">
-      <label for="telefono">Teléfono:</label>
+      <label for="telefono">Teléfono</label>
       <input
         type="tel"
         id="telefono"
         name="telefono"
         [(ngModel)]="usuario.telefono"
+        #telefono="ngModel"
         required
-        placeholder="Ingresa tu teléfono">
+        [class.valido]="telefono.valid && (telefono.dirty || telefono.touched)"
+        [class.invalido]="telefono.invalid && (telefono.dirty || telefono.touched)"
+        placeholder="Escribe tu teléfono"
+      />
+
+      <div class="error" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
+        El teléfono es obligatorio.
+      </div>
+      <div class="exito" *ngIf="telefono.valid && (telefono.dirty || telefono.touched)">
+        Teléfono válido.
+      </div>
     </div>
 
+    <!-- Edad -->
     <div class="campo">
-      <label for="edad">Edad:</label>
+      <label for="edad">Edad</label>
       <input
         type="number"
         id="edad"
         name="edad"
         [(ngModel)]="usuario.edad"
+        #edad="ngModel"
         required
-        min="1"
-        max="120"
-        placeholder="Ingresa tu edad">
+        min="18"
+        [class.valido]="edad.valid && (edad.dirty || edad.touched)"
+        [class.invalido]="edad.invalid && (edad.dirty || edad.touched)"
+        placeholder="Debes tener 18 años o más"
+      />
+
+      <div class="error" *ngIf="edad.invalid && (edad.dirty || edad.touched)">
+        <span *ngIf="edad.errors?.['required']">
+          La edad es obligatoria.
+        </span>
+        <span *ngIf="edad.errors?.['min']">
+          Debes tener al menos 18 años.
+        </span>
+      </div>
+      <div class="exito" *ngIf="edad.valid && (edad.dirty || edad.touched)">
+        Edad válida.
+      </div>
     </div>
 
+    <!-- Contraseña -->
     <div class="campo">
-      <label for="password">Contraseña:</label>
+      <label for="password">Contraseña</label>
       <input
         type="password"
         id="password"
         name="password"
         [(ngModel)]="usuario.password"
+        #password="ngModel"
         required
-        placeholder="Ingresa una contraseña">
+        minlength="6"
+        [class.valido]="password.valid && (password.dirty || password.touched)"
+        [class.invalido]="password.invalid && (password.dirty || password.touched)"
+        placeholder="Mínimo 6 caracteres"
+      />
+
+      <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <span *ngIf="password.errors?.['required']">
+          La contraseña es obligatoria.
+        </span>
+        <span *ngIf="password.errors?.['minlength']">
+          La contraseña debe tener al menos 6 caracteres.
+        </span>
+      </div>
+      <div class="exito" *ngIf="password.valid && (password.dirty || password.touched)">
+        Contraseña válida.
+      </div>
     </div>
 
+    <!-- Confirmación -->
     <div class="campo">
-      <label for="confirmarPassword">Confirmación de contraseña:</label>
+      <label for="confirmacion">Confirmación de contraseña</label>
       <input
         type="password"
-        id="confirmarPassword"
-        name="confirmarPassword"
-        [(ngModel)]="usuario.confirmarPassword"
+        id="confirmacion"
+        name="confirmacion"
+        [(ngModel)]="usuario.confirmacion"
+        #confirmacion="ngModel"
         required
-        placeholder="Confirma tu contraseña">
+        [class.valido]="confirmacion.valid && (confirmacion.dirty || confirmacion.touched) && usuario.confirmacion === usuario.password"
+        [class.invalido]="(confirmacion.invalid || (confirmacion.dirty && usuario.confirmacion !== usuario.password)) && (confirmacion.dirty || confirmacion.touched)"
+        placeholder="Repite tu contraseña"
+      />
+
+      <div class="error" *ngIf="confirmacion.invalid && (confirmacion.dirty || confirmacion.touched)">
+        La confirmación de contraseña es obligatoria.
+      </div>
+      <div class="error" *ngIf="confirmacion.valid && (confirmacion.dirty || confirmacion.touched) && usuario.confirmacion !== usuario.password">
+        Las contraseñas no coinciden.
+      </div>
+      <div class="exito" *ngIf="confirmacion.valid && (confirmacion.dirty || confirmacion.touched) && usuario.confirmacion === usuario.password">
+        Las contraseñas coinciden.
+      </div>
     </div>
 
-    <button type="submit" [disabled]="formulario.invalid">
+    <button type="submit" [disabled]="formRegistro.invalid || usuario.confirmacion !== usuario.password">
       Registrar
     </button>
 
-  </form>
+    <p class="mensaje-exito" *ngIf="registrado">
+      ¡Registro completado correctamente!
+    </p>
 
-  @if (registrado) {
-    <div class="resultado">
-
-      <h2>Datos registrados</h2>
-
-      <p><strong>Nombre completo:</strong> {{ usuario.nombre }}</p>
-      <p><strong>Correo electrónico:</strong> {{ usuario.correo }}</p>
+    <div class="datos" *ngIf="registrado">
+      <h3>Datos registrados</h3>
+      <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+      <p><strong>Correo:</strong> {{ usuario.correo }}</p>
       <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
       <p><strong>Edad:</strong> {{ usuario.edad }}</p>
-      <p><strong>Contraseña:</strong> {{ usuario.password }}</p>
-      <p><strong>Confirmación:</strong> {{ usuario.confirmarPassword }}</p>
-
+      <p><strong>Contraseña:</strong> {{ '•'.repeat(usuario.password.length) }}</p>
     </div>
-  }
 
+  </form>
 </div>
