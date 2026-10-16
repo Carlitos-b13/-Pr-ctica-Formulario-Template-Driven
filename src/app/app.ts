@@ -1,11 +1,12 @@
+
 import { Component } from '@angular/core';
-import { Registro } from './registro/registro';
+import { FormularioReactivo } from './formulario-reactivo/formulario-reactivo';
 
 @Component({
   selector: 'app-root',
-  imports: [Registro],
+  standalone: true,
+  imports: [FormularioReactivo],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-}
+export class App {}

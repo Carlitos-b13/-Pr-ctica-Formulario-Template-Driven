@@ -1,0 +1,106 @@
+
+<div class="contenedor">
+  <h1>Formulario Reactivo</h1>
+  <p class="subtitulo">Registro de usuario con Angular</p>
+
+  <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()" novalidate>
+
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        formControlName="nombre"
+        placeholder="Ingresa tu nombre"
+        [class.valido]="formulario.controls.nombre.valid && formulario.controls.nombre.touched"
+        [class.invalido]="formulario.controls.nombre.invalid && formulario.controls.nombre.touched"
+      />
+      <div class="error" *ngIf="formulario.controls.nombre.touched && formulario.controls.nombre.hasError('required')">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="apellidos">Apellidos</label>
+      <input
+        id="apellidos"
+        type="text"
+        formControlName="apellidos"
+        placeholder="Ingresa tus apellidos"
+        [class.valido]="formulario.controls.apellidos.valid && formulario.controls.apellidos.touched"
+        [class.invalido]="formulario.controls.apellidos.invalid && formulario.controls.apellidos.touched"
+      />
+      <div class="error" *ngIf="formulario.controls.apellidos.touched && formulario.controls.apellidos.hasError('required')">
+        Los apellidos son obligatorios.
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="correo">Correo electrónico</label>
+      <input
+        id="correo"
+        type="email"
+        formControlName="correo"
+        placeholder="ejemplo@correo.com"
+        [class.valido]="formulario.controls.correo.valid && formulario.controls.correo.touched"
+        [class.invalido]="formulario.controls.correo.invalid && formulario.controls.correo.touched"
+      />
+      <div class="error" *ngIf="formulario.controls.correo.touched && formulario.controls.correo.hasError('required')">
+        El correo es obligatorio.
+      </div>
+      <div class="error" *ngIf="formulario.controls.correo.touched && formulario.controls.correo.hasError('email')">
+        Ingresa un correo válido.
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input
+        id="telefono"
+        type="tel"
+        formControlName="telefono"
+        placeholder="Ingresa tu teléfono"
+        [class.valido]="formulario.controls.telefono.valid && formulario.controls.telefono.touched"
+        [class.invalido]="formulario.controls.telefono.invalid && formulario.controls.telefono.touched"
+      />
+      <div class="error" *ngIf="formulario.controls.telefono.touched && formulario.controls.telefono.hasError('required')">
+        El teléfono es obligatorio.
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Mínimo 6 caracteres"
+        [class.valido]="formulario.controls.password.valid && formulario.controls.password.touched"
+        [class.invalido]="formulario.controls.password.invalid && formulario.controls.password.touched"
+      />
+      <div class="error" *ngIf="formulario.controls.password.touched && formulario.controls.password.hasError('required')">
+        La contraseña es obligatoria.
+      </div>
+      <div class="error" *ngIf="formulario.controls.password.touched && formulario.controls.password.hasError('minlength')">
+        La contraseña debe tener al menos 6 caracteres.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="formulario.invalid">
+      Registrar
+    </button>
+
+    <button type="button" class="secundario" (click)="limpiarFormulario()">
+      Limpiar formulario
+    </button>
+  </form>
+
+  <div class="resultado" *ngIf="datosRegistrados">
+    <h2>¡Registro exitoso!</h2>
+    <p><strong>Nombre:</strong> {{ datosRegistrados.nombre }}</p>
+    <p><strong>Apellidos:</strong> {{ datosRegistrados.apellidos }}</p>
+    <p><strong>Correo:</strong> {{ datosRegistrados.correo }}</p>
+    <p><strong>Teléfono:</strong> {{ datosRegistrados.telefono }}</p>
+    <p><strong>Contraseña:</strong> {{ '•'.repeat(datosRegistrados.password.length) }}</p>
+  </div>
+</div>
